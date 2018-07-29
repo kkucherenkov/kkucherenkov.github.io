@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="author" content="kirill Kucherenkov">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+<title> How to protect an Android application › Yet Another Developer Journal [YADJ]</title>
+<link rel="canonical" href="http://localhost:4000/android/security/2018/07/28/protect-android-app/">
+<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/basic.css" rel="stylesheet">
+<link href="/highlight.css" rel="stylesheet">
+<link href="/index.css" rel="stylesheet">
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Yet Another Developer Journal [YADJ]" />
+<script src="//kucherenkov-info.disqus.com/embed.js" async></script>
+
+<header>
+  <h1><a href="">Yet Another Developer Journal [YADJ]</a></h1>
+  <nav>
+    <div><a href="/">Home</a><a href="/archive/">Archive</a><a href="/resume/">Kirill Kucherenkov resume</a><a href="/about/">About</a></div>
+    <div></div>
+  </nav>
+</header>
+<main>
+  <article>
+    <header>
+      <h1><a href="/android/security/2018/07/28/protect-android-app/">How to protect an Android application</a></h1>
+      <time datetime="2018-07-28T10:10:39+03:00">July 28, 2018</time>
+    </header>
+<p>There are several ways to increase the security of your app. Along with the tips and best practices mentioned on the Android Developers website [link] you can use additional technics and security checks.</p>
+
+<nav>
+<ul id="markdown-toc">
+  <li><a href="#ssl-pinning" id="markdown-toc-ssl-pinning">SSL Pinning</a></li>
+  <li><a href="#additional-checks" id="markdown-toc-additional-checks">Additional checks</a>    <ul>
+      <li><a href="#check-if-the-application-was-installed-from-the-google-play" id="markdown-toc-check-if-the-application-was-installed-from-the-google-play">Check if the application was installed from the Google Play</a></li>
+      <li><a href="#check-if-a-debugger-is-attached" id="markdown-toc-check-if-a-debugger-is-attached">Check if a debugger is attached</a></li>
+      <li><a href="#check-if-the-app-is-run-on-an-emulator" id="markdown-toc-check-if-the-app-is-run-on-an-emulator">Check if the app is run on an emulator</a></li>
+    </ul>
+  </li>
+</ul>
+
+</nav>
+
+<h2 id="ssl-pinning">SSL Pinning</h2>
+
+<figure class="highlight">
+  <pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+<span class="nv">certs</span><span class="o">=</span><span class="sb">`</span>openssl s_client <span class="nt">-servername</span> <span class="nv">$1</span> <span class="nt">-host</span> <span class="nv">$1</span> <span class="nt">-port</span> 443 <span class="nt">-showcerts</span> &lt;/dev/null 2&gt;/dev/null | sed <span class="nt">-n</span> <span class="s1">'/Certificate chain/,/Server certificate/p'</span><span class="sb">`</span>
+<span class="nv">rest</span><span class="o">=</span><span class="nv">$certs</span>
+<span class="k">while</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$rest</span><span class="s2">"</span> <span class="o">=</span>~ <span class="s1">'-----BEGIN CERTIFICATE-----'</span> <span class="o">]]</span>
+<span class="k">do
+ </span><span class="nv">cert</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">rest</span><span class="p">%%-----END CERTIFICATE-----*</span><span class="k">}</span><span class="s2">-----END CERTIFICATE-----"</span>
+ <span class="nv">rest</span><span class="o">=</span><span class="k">${</span><span class="nv">rest</span><span class="p">#*-----END CERTIFICATE-----</span><span class="k">}</span>
+ <span class="nv">strng</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$cert</span><span class="s2">"</span> | openssl x509 <span class="nt">-pubkey</span> <span class="nt">-noout</span> | 
+     openssl rsa <span class="nt">-pubin</span> <span class="nt">-outform</span> der 2&gt;/dev/null | 
+     openssl dgst <span class="nt">-sha256</span> <span class="nt">-binary</span> | openssl enc <span class="nt">-base64</span><span class="sb">`</span>
+ <span class="nb">echo</span> <span class="s2">"sha256/"</span><span class="nv">$strng</span>
+<span class="k">done</span> </code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-bash" data-lang="bash"> ❯ sh cert.sh gmail.com</code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-bash" data-lang="bash">sha256/dqPe+luTXZyjIH1kEwBzfVP+InCRtoK1POXA/BIN9iM<span class="o">=</span>
+sha256/f8NnEFZxQ4ExFOhSN7EiFWtiudZQVD2oY60uauV/n78<span class="o">=</span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java"><span class="n">httpClientBuilder</span>
+                 <span class="o">.</span><span class="na">certificatePinner</span><span class="o">(</span><span class="k">new</span> <span class="n">CertificatePinner</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+                 <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"gmail.com"</span><span class="o">,</span> <span class="s">"sha256/dqPe+luTXZyjIH1kEwBzfVP+InCRtoK1POXA/BIN9iM="</span><span class="o">)</span>
+                 <span class="o">.</span><span class="na">build</span><span class="o">());</span></code></pre>
+</figure>
+
+<h2 id="additional-checks">Additional checks</h2>
+
+<h3 id="check-if-the-application-was-installed-from-the-google-play">Check if the application was installed from the Google Play</h3>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">isStoreVersion</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">installer</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getPackageManager</span><span class="o">()</span>
+                    <span class="o">.</span><span class="na">getInstallerPackageName</span><span class="o">(</span><span class="n">context</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">());</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="o">!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">installer</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span></code></pre>
+</figure>
+
+<h3 id="check-if-a-debugger-is-attached">Check if a debugger is attached</h3>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">isDebugConnected</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Debug</span><span class="o">.</span><span class="na">isDebuggerConnected</span><span class="o">();</span>
+    <span class="o">}</span></code></pre>
+</figure>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">checkDebuggable</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">context</span><span class="o">.</span><span class="na">getApplicationInfo</span><span class="o">().</span><span class="na">flags</span> <span class="o">&amp;</span> <span class="n">ApplicationInfo</span><span class="o">.</span><span class="na">FLAG_DEBUGGABLE</span><span class="o">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span></code></pre>
+</figure>
+
+<h3 id="check-if-the-app-is-run-on-an-emulator">Check if the app is run on an emulator</h3>
+
+<figure class="highlight">
+  <pre><code class="language-java" data-lang="java">    <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSystemProperty</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">Class</span> <span class="n">systemPropertyClazz</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"android.os.SystemProperties"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">systemPropertyClazz</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">"get"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+                <span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">systemPropertyClazz</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">name</span><span class="o">});</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">checkEmulator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">boolean</span> <span class="n">goldfish</span> <span class="o">=</span> <span class="n">getSystemProperty</span><span class="o">(</span><span class="s">"ro.hardware"</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="s">"goldfish"</span><span class="o">);</span>
+            <span class="kt">boolean</span> <span class="n">emu</span> <span class="o">=</span> <span class="n">getSystemProperty</span><span class="o">(</span><span class="s">"ro.kernel.qemu"</span><span class="o">).</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="kt">boolean</span> <span class="n">sdk</span> <span class="o">=</span> <span class="n">getSystemProperty</span><span class="o">(</span><span class="s">"ro.product.model"</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="s">"sdk"</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">emu</span> <span class="o">||</span> <span class="n">goldfish</span> <span class="o">||</span> <span class="n">sdk</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span></code></pre>
+</figure>
+
+    
+    
+    <hr><div id="disqus_thread"></div>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </article>
+</main>
+
+
+<footer>
+     <span></span> 
+    <a href="/video/about_me/2018/01/13/first-post/">How to be an expert »</a>
+</footer>
+
