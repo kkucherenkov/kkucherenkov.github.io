@@ -1,6 +1,7 @@
 ---
 date: 2023-12-14T00:30:35+04:00
 title: "В чем фишка NodeJS?"
+description: "Как устроен Node.js: событийный цикл, однопоточность и почему он хорош для I/O-нагрузок."
 draft: false
 toc: false
 images:

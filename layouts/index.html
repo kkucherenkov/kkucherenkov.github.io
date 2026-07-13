@@ -1,0 +1,51 @@
+{{ define "body" }}
+    <body class="{{ if .Site.Params.backgroundImage }} background-image" style="background-image: url('{{ .Site.Params.backgroundImage }}');" {{ else }}"{{ end }}>
+{{ end }}
+
+{{ define "main" }}
+    <div class="content">
+        <main class="home posts">
+            <h1 class="home-name">Кирилл Кучеренков</h1>
+
+            <div class="home-subtitle">{{ partial "subtitle.html" . }}</div>
+
+            <p class="home-bio">
+                Инженер-программист с 20+ годами опыта. Бэкенд на Go и Node.js/TypeScript,
+                веб на Nuxt 3, мобильные приложения на Flutter. Здесь пишу про архитектуру
+                фронтенда (FSD), Go, Node.js и крипто-разработку.
+            </p>
+
+            {{- with .Site.Params.social }}
+                <div class="home-social">
+                    {{ partial "social-icons.html" . }}
+                </div>
+            {{- end }}
+
+            {{ $posts := (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
+            {{ with $posts }}
+                <section class="home-latest">
+                    <h2 class="home-latest-title">Последние посты</h2>
+
+                    <ul class="posts-list">
+                        {{ range first 5 . }}
+                            <li class="post-item">
+                                <a href="{{ .Permalink }}" class="post-item-inner">
+                                    <span class="post-title">{{ .Title }}</span>
+                                    <span class="post-day">
+                                        {{ if $.Site.Params.dateformShort }}
+                                            {{ time.Format $.Site.Params.dateformShort .Date }}
+                                        {{ else }}
+                                            {{ time.Format "Jan 2" .Date }}
+                                        {{ end }}
+                                    </span>
+                                </a>
+                            </li>
+                        {{ end }}
+                    </ul>
+
+                    <a class="home-allposts" href="{{ "/posts" | relLangURL }}">Все посты →</a>
+                </section>
+            {{ end }}
+        </main>
+    </div>
+{{ end }}

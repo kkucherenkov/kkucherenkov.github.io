@@ -1,0 +1,140 @@
+/* Custom styles layered on top of hello-friend-ng.
+   Color tokens mirror the theme's _variables.scss and follow the same
+   dual mechanism: OS preference (@media) + manual toggle ([data-theme]). */
+
+:root {
+  --u-text: #222;
+  --u-secondary: #999;
+  --u-border: #dcdcdc;
+  --u-surface: #eaeaea;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --u-text: #a9a9b3;
+    --u-secondary: #b3b3bd;
+    --u-border: #4e4e57;
+    --u-surface: #3b3d42;
+  }
+}
+:root[data-theme="dark"] {
+  --u-text: #a9a9b3;
+  --u-secondary: #b3b3bd;
+  --u-border: #4e4e57;
+  --u-surface: #3b3d42;
+}
+:root[data-theme="light"] {
+  --u-text: #222;
+  --u-secondary: #999;
+  --u-border: #dcdcdc;
+  --u-surface: #eaeaea;
+}
+
+/* ------------------------------ home ------------------------------ */
+.home-name {
+  margin-bottom: 0.15em;
+}
+.home-subtitle p {
+  margin-top: 0;
+  color: var(--u-secondary);
+  font-size: 1.05rem;
+}
+.home-bio {
+  max-width: 42em;
+  line-height: 1.7;
+  margin: 1.2em 0 0;
+}
+.home-social {
+  margin-top: 1.3em;
+  font-size: 1.15rem;
+}
+.home-social a {
+  text-decoration: none;
+}
+
+.home-latest {
+  margin-top: 2.6em;
+}
+.home-latest-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--u-secondary);
+  border-top: 1px solid var(--u-border);
+  padding-top: 1.4em;
+  margin-bottom: 0.2em;
+}
+.home-allposts {
+  display: inline-block;
+  margin-top: 1em;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.home-allposts:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------- blog list extras -------------------------- */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin: 0 0 0.5em;
+}
+.post-tag {
+  font-size: 0.72rem;
+  color: var(--u-secondary);
+  text-decoration: none;
+  padding: 0.1em 0.6em;
+  border: 1px solid var(--u-border);
+  border-radius: 999px;
+  line-height: 1.7;
+}
+.post-tag:hover {
+  color: var(--u-text);
+  border-color: var(--u-secondary);
+}
+.post-excerpt-list {
+  margin: 0 0 0.4em;
+  color: var(--u-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* ----------------------------- tag cloud ----------------------------- */
+.terms {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  margin: 20px auto;
+  text-align: left;
+}
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  margin-top: 1.5em;
+}
+.tag-cloud-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.35em 0.8em;
+  border: 1px solid var(--u-border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--u-text);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.tag-cloud-item:hover {
+  border-color: var(--u-secondary);
+  background: var(--u-surface);
+}
+.tag-cloud-count {
+  font-size: 0.75rem;
+  color: var(--u-secondary);
+  background: var(--u-surface);
+  border-radius: 999px;
+  padding: 0 0.5em;
+  min-width: 1.4em;
+  text-align: center;
+}

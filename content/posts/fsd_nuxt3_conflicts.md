@@ -1,5 +1,6 @@
 ---
 title: "Feature-Sliced Design и Nuxt 3: почему они конфликтуют"
+description: "Почему Feature-Sliced Design конфликтует с файловыми соглашениями и автоимпортами Nuxt 3 — и как заставить их ужиться."
 date: 2026-07-14T01:31:48+04:00
 draft: false
 toc: true

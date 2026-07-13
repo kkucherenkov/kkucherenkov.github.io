@@ -1,5 +1,6 @@
 ---
 title: "Настройка NodeJS проекта с TypeScript"
+description: "Пошаговая настройка Node.js-проекта с TypeScript: компилятор, линтер, структура и скрипты сборки. (перевод)"
 date: 2023-12-12T17:54:16+04:00
 draft: false
 toc: false

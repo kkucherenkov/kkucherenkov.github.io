@@ -1,0 +1,20 @@
+{{ define "main" }}
+    <div class="content">
+        <main class="terms">
+            <h1>{{ .Title }}</h1>
+
+            {{ if .Content }}
+                <div class="content">{{ .Content }}</div>
+            {{ end }}
+
+            <div class="tag-cloud">
+                {{ range .Data.Terms.ByCount }}
+                    <a class="tag-cloud-item" href="{{ .Page.Permalink }}">
+                        <span class="tag-cloud-name">#{{ .Page.Title | lower }}</span>
+                        <span class="tag-cloud-count">{{ .Count }}</span>
+                    </a>
+                {{ end }}
+            </div>
+        </main>
+    </div>
+{{ end }}

@@ -29,6 +29,12 @@ theme        = "hello-friend-ng"
   description = "My new homepage and blog"
   keywords = "homepage, blog, CV"
 
+  # Show reading time on posts
+  EnableReadingTime = true
+
+  # Extra stylesheet layered on top of the theme (see static/css/custom.css)
+  customCSS = ["/css/custom.css"]
+
 [taxonomies]
     tag = "tags"
 
@@ -53,3 +59,30 @@ theme        = "hello-friend-ng"
     name       = "Blog"
     url        = "/posts"
     weight     = 3
+  [[menu.main]]
+    identifier = "tags"
+    name       = "Tags"
+    url        = "/tags"
+    weight     = 4
+
+# Social links shown on the home page (order = display order)
+[[params.social]]
+  name = "github"
+  url  = "https://github.com/kkucherenkov"
+  nonewpage = 0
+[[params.social]]
+  name = "linkedin"
+  url  = "https://www.linkedin.com/in/kirillkucherenkov/"
+  nonewpage = 0
+[[params.social]]
+  name = "telegram"
+  url  = "https://t.me/kkucherenkov"
+  nonewpage = 0
+[[params.social]]
+  name = "email"
+  url  = "mailto:kirill.kucherenkov@gmail.com"
+  nonewpage = 1
+[[params.social]]
+  name = "rss"
+  url  = "/posts/index.xml"
+  nonewpage = 1
