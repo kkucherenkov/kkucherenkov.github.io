@@ -1,3 +1,8 @@
+---
+title: "CV"
+date: 2024-03-05T12:55:01+04:00
+---
+
 # About
 
 With almost 20 years of experience as a software engineer, I have successfully engaged in the entire life-cycle of development, encompassing comprehensive tasks such as analysis, design, development, deployment, testing, implementation, and maintenance of application software across diverse platforms, including mobile, backend, and desktop.  

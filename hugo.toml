@@ -1,8 +1,11 @@
-baseurl      = "localhost"
+baseurl      = "https://kkucherenkov.github.io/"
 title        = "Kirill's homepage"
-languageCode = "en-us"
+languageCode = "ru"
+defaultContentLanguage = "ru"
 theme        = "hello-friend-ng"
-paginate     = 10
+
+[pagination]
+  pagerSize = 10
 
 [params]
   dateform        = "Jan 2, 2006"
@@ -25,14 +28,12 @@ paginate     = 10
   # Metadata mostly used in document's head
   description = "My new homepage and blog"
   keywords = "homepage, blog, CV"
-  images = [""]
 
 [taxonomies]
-    category = "blog"
-    tag      = "tags"
+    tag = "tags"
 
 [languages]
-  [languages.en]
+  [languages.ru]
     title = "Kirill's homepage"
     copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
     
@@ -41,11 +42,14 @@ paginate     = 10
     identifier = "about"
     name       = "About"
     url        = "/about"
+    weight     = 1
   [[menu.main]]
     identifier = "resume"
     name       = "CV"
     url        = "/resume"
+    weight     = 2
   [[menu.main]]
     identifier = "blog"
     name       = "Blog"
     url        = "/posts"
+    weight     = 3
