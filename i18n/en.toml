@@ -1,0 +1,18 @@
+[homeName]
+other = "Kirill Kucherenkov"
+[homeBio]
+other = "Software engineer with 20+ years of experience. Backend in Go and Node.js/TypeScript, web in Nuxt, mobile apps in Flutter. These are the things I build in my own time."
+[latestPosts]
+other = "Latest posts"
+[allPosts]
+other = "All posts →"
+[projects]
+other = "Projects"
+[allProjects]
+other = "All projects →"
+[stack]
+other = "Stack"
+[screenshots]
+other = "Screenshots"
+[otherLanguage]
+other = "Читать по-русски"

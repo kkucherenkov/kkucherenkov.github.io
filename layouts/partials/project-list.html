@@ -1,0 +1,17 @@
+{{/* Rows of projects; takes a page collection as context. */}}
+<ul class="project-list">
+    {{ range . }}
+        <li class="project-row"{{ with .Params.accent }} style="--p-accent: {{ . | safeCSS }}"{{ end }}>
+            <a class="project-row-link" href="{{ .RelPermalink }}">
+                <span class="project-row-title">{{ .Title }}</span>
+                {{ with .Params.status }}<span class="project-row-status">{{ . }}</span>{{ end }}
+            </a>
+            {{ with .Params.tagline }}<p class="project-row-tagline">{{ . }}</p>{{ end }}
+            {{ with .Params.stack }}
+                <ul class="post-tags">
+                    {{ range first 5 . }}<li class="post-tag">{{ . }}</li>{{ end }}
+                </ul>
+            {{ end }}
+        </li>
+    {{ end }}
+</ul>

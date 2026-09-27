@@ -5,15 +5,11 @@
 {{ define "main" }}
     <div class="content">
         <main class="home posts">
-            <h1 class="home-name">Кирилл Кучеренков</h1>
+            <h1 class="home-name">{{ i18n "homeName" }}</h1>
 
             <div class="home-subtitle">{{ partial "subtitle.html" . }}</div>
 
-            <p class="home-bio">
-                Инженер-программист с 20+ годами опыта. Бэкенд на Go и Node.js/TypeScript,
-                веб на Nuxt 3, мобильные приложения на Flutter. Здесь пишу про архитектуру
-                фронтенда (FSD), Go, Node.js и крипто-разработку.
-            </p>
+            <p class="home-bio">{{ i18n "homeBio" }}</p>
 
             {{- with .Site.Params.social }}
                 <div class="home-social">
@@ -21,10 +17,19 @@
                 </div>
             {{- end }}
 
+            {{ $projects := (where .Site.RegularPages "Section" "projects").ByWeight }}
+            {{ with $projects }}
+                <section class="home-latest">
+                    <h2 class="home-latest-title">{{ i18n "projects" }}</h2>
+                    {{ partial "project-list.html" . }}
+                    <a class="home-allposts" href="{{ "/projects/" | relLangURL }}">{{ i18n "allProjects" }}</a>
+                </section>
+            {{ end }}
+
             {{ $posts := (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
             {{ with $posts }}
                 <section class="home-latest">
-                    <h2 class="home-latest-title">Последние посты</h2>
+                    <h2 class="home-latest-title">{{ i18n "latestPosts" }}</h2>
 
                     <ul class="posts-list">
                         {{ range first 5 . }}
@@ -43,7 +48,7 @@
                         {{ end }}
                     </ul>
 
-                    <a class="home-allposts" href="{{ "/posts" | relLangURL }}">Все посты →</a>
+                    <a class="home-allposts" href="{{ "/posts" | relLangURL }}">{{ i18n "allPosts" }}</a>
                 </section>
             {{ end }}
         </main>

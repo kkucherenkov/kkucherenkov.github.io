@@ -23,7 +23,7 @@ theme        = "hello-friend-ng"
   enableSharingButtons = true
   
   # Show a global language switcher in the navigation bar
-  enableGlobalLanguageMenu = false
+  enableGlobalLanguageMenu = true
 
   # Metadata mostly used in document's head
   description = "My new homepage and blog"
@@ -38,32 +38,56 @@ theme        = "hello-friend-ng"
 [taxonomies]
     tag = "tags"
 
+# ru lives at the site root, en under /en/. Only projects are translated;
+# the en menu points to the Russian blog with an absolute URL.
 [languages]
   [languages.ru]
+    weight = 1
     title = "Kirill's homepage"
     copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-    
-  # And you can even create generic menu
-  [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "/about"
-    weight     = 1
-  [[menu.main]]
-    identifier = "resume"
-    name       = "CV"
-    url        = "/resume"
-    weight     = 2
-  [[menu.main]]
-    identifier = "blog"
-    name       = "Blog"
-    url        = "/posts"
-    weight     = 3
-  [[menu.main]]
-    identifier = "tags"
-    name       = "Tags"
-    url        = "/tags"
-    weight     = 4
+    [[languages.ru.menus.main]]
+      identifier = "about"
+      name       = "About"
+      url        = "/about"
+      weight     = 1
+    [[languages.ru.menus.main]]
+      identifier = "resume"
+      name       = "CV"
+      url        = "/resume"
+      weight     = 2
+    [[languages.ru.menus.main]]
+      identifier = "projects"
+      name       = "Projects"
+      url        = "/projects"
+      weight     = 3
+    [[languages.ru.menus.main]]
+      identifier = "blog"
+      name       = "Blog"
+      url        = "/posts"
+      weight     = 4
+    [[languages.ru.menus.main]]
+      identifier = "tags"
+      name       = "Tags"
+      url        = "/tags"
+      weight     = 5
+
+  [languages.en]
+    weight = 2
+    languageCode = "en"
+    title = "Kirill's homepage"
+    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+    [languages.en.params]
+      homeSubtitle = "A backend/mobile fullstack developer"
+    [[languages.en.menus.main]]
+      identifier = "projects"
+      name       = "Projects"
+      url        = "/projects"
+      weight     = 1
+    [[languages.en.menus.main]]
+      identifier = "blog"
+      name       = "Blog (ru)"
+      url        = "https://kkucherenkov.github.io/posts/"
+      weight     = 2
 
 # Social links shown on the home page (order = display order)
 [[params.social]]

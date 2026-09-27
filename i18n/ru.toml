@@ -1,0 +1,18 @@
+[homeName]
+other = "Кирилл Кучеренков"
+[homeBio]
+other = "Инженер-программист с 20+ годами опыта. Бэкенд на Go и Node.js/TypeScript, веб на Nuxt, мобильные приложения на Flutter. Здесь пишу про архитектуру фронтенда (FSD), Go, Node.js и крипто-разработку."
+[latestPosts]
+other = "Последние посты"
+[allPosts]
+other = "Все посты →"
+[projects]
+other = "Проекты"
+[allProjects]
+other = "Все проекты →"
+[stack]
+other = "Стек"
+[screenshots]
+other = "Скриншоты"
+[otherLanguage]
+other = "Read in English"

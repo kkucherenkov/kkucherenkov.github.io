@@ -81,8 +81,8 @@
   margin: 0 0 0.5em;
 }
 .post-tag {
-  font-size: 0.72rem;
-  color: var(--u-secondary);
+  font-size: 0.75rem;
+  color: var(--u-text);
   text-decoration: none;
   padding: 0.1em 0.6em;
   border: 1px solid var(--u-border);
@@ -137,4 +137,141 @@
   padding: 0 0.5em;
   min-width: 1.4em;
   text-align: center;
+}
+
+/* ------------------------------ projects ------------------------------ */
+/* Each project sets --p-accent from its own brand (front matter `accent`).
+   The accent is decoration only — rules and bars — never text colour,
+   so contrast stays with the theme in both modes. */
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.2em 0 0;
+}
+.project-row {
+  border-left: 3px solid var(--p-accent, var(--u-border));
+  padding: 0.1em 0 0.1em 1em;
+  margin: 0 0 1.6em;
+}
+.project-row-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.2em 1em;
+  text-decoration: none;
+}
+.project-row-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.project-row-link:hover .project-row-title {
+  text-decoration: underline;
+}
+.project-row-status {
+  font-size: 0.85rem;
+  color: var(--u-secondary);
+}
+.project-row-tagline {
+  margin: 0.25em 0 0.55em;
+  max-width: 40em;
+  line-height: 1.55;
+}
+.project-row .post-tags {
+  list-style: none;
+  padding: 0;
+}
+.project-intro {
+  max-width: 42em;
+  line-height: 1.7;
+}
+
+.project-hero {
+  border-left: 6px solid var(--p-accent, var(--u-border));
+  padding: 0.2em 0 0.2em 1.2em;
+  margin: 1em 0 2em;
+}
+.project-title {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.3em;
+}
+.project-tagline {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 34em;
+  margin: 0 0 0.6em;
+}
+.project-status {
+  color: var(--u-secondary);
+  font-size: 0.9rem;
+  margin: 0 0 1.2em;
+}
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+}
+.project-link {
+  padding: 0.45em 1.1em;
+  border: 1px solid var(--u-border);
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.project-link:first-child {
+  background: var(--p-accent, var(--u-surface));
+  border-color: var(--p-accent, var(--u-border));
+  color: #1b1c1d;
+  font-weight: 600;
+}
+.project-link:hover {
+  border-color: var(--u-secondary);
+}
+.project-link:focus-visible {
+  outline: 2px solid var(--u-text);
+  outline-offset: 2px;
+}
+
+.project-cover {
+  margin: 0 0 2.4em;
+}
+.project-cover img,
+.project-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--u-border);
+  border-radius: 6px;
+}
+.project-section {
+  margin-top: 2.4em;
+}
+.project-section .post-tags {
+  list-style: none;
+  padding: 0;
+}
+.project-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1em;
+}
+.project-gallery figure {
+  margin: 0;
+}
+.project-gallery figcaption {
+  font-size: 0.85rem;
+  color: var(--u-secondary);
+  margin-top: 0.4em;
+}
+.project-translation {
+  margin-top: 3em;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 684px) {
+  .project-tagline {
+    font-size: 1.05rem;
+  }
 }

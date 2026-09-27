@@ -1,0 +1,9 @@
+{{ define "main" }}
+    <div class="content">
+        <main class="posts">
+            <h1>{{ .Title }}</h1>
+            {{ with .Content }}<div class="project-intro">{{ . }}</div>{{ end }}
+            {{ partial "project-list.html" .Pages.ByWeight }}
+        </main>
+    </div>
+{{ end }}

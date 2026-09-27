@@ -1,0 +1,57 @@
+{{ define "main" }}
+    <div class="content">
+        <main class="post project"{{ with .Params.accent }} style="--p-accent: {{ . | safeCSS }}"{{ end }}>
+            <header class="project-hero">
+                <h1 class="project-title">{{ .Title }}</h1>
+                {{ with .Params.tagline }}<p class="project-tagline">{{ . }}</p>{{ end }}
+                {{ with .Params.status }}<p class="project-status">{{ . }}</p>{{ end }}
+                {{ with .Params.links }}
+                    <nav class="project-links">
+                        {{ range . }}<a class="project-link" href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a>{{ end }}
+                    </nav>
+                {{ end }}
+            </header>
+
+            {{ with .Params.cover }}
+                {{ with $.Resources.Get . }}
+                    {{ $img := .Resize "1440x webp q82" }}
+                    <figure class="project-cover">
+                        <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $.Title }}">
+                    </figure>
+                {{ end }}
+            {{ end }}
+
+            <div class="post-content">{{ .Content }}</div>
+
+            {{ with .Params.stack }}
+                <section class="project-section">
+                    <h2>{{ i18n "stack" }}</h2>
+                    <ul class="post-tags">{{ range . }}<li class="post-tag">{{ . }}</li>{{ end }}</ul>
+                </section>
+            {{ end }}
+
+            {{ with .Params.gallery }}
+                <section class="project-section">
+                    <h2>{{ i18n "screenshots" }}</h2>
+                    <div class="project-gallery">
+                        {{ range . }}
+                            {{ $cap := .caption }}
+                            {{ with $.Resources.Get .src }}
+                                {{ $full := .Resize "1440x webp q82" }}
+                                {{ $thumb := .Resize "720x webp q78" }}
+                                <figure>
+                                    <a href="{{ $full.RelPermalink }}"><img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" loading="lazy" alt="{{ $cap }}"></a>
+                                    {{ with $cap }}<figcaption>{{ . }}</figcaption>{{ end }}
+                                </figure>
+                            {{ end }}
+                        {{ end }}
+                    </div>
+                </section>
+            {{ end }}
+
+            {{ range .Translations }}
+                <p class="project-translation"><a href="{{ .RelPermalink }}" hreflang="{{ .Lang }}">{{ i18n "otherLanguage" }}</a></p>
+            {{ end }}
+        </main>
+    </div>
+{{ end }}
