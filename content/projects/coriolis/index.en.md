@@ -73,6 +73,8 @@ spec, and CI fails on drift. The interface ships in English, Russian, Ukrainian
 and Greek, with key parity checked in CI. Telemetry flows through
 OpenTelemetry into Grafana, errors into Sentry.
 
+The scaffold shared by Course Shelf, Coriolis and burkmak is covered in a post (in Russian): [«Контракт, от которого код не может уйти»](/posts/spec_first_monorepo/).
+
 ## Installation
 
 The local stack runs on Docker Compose. There is no public instance yet:

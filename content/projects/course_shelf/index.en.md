@@ -104,6 +104,10 @@ the spec doesn't describe, and CI fails when code drifts from the contract.
 Scan and job events reach the clients through Centrifugo. The interface ships
 in English and Russian.
 
+The scaffold shared by Course Shelf, Coriolis and burkmak is covered in a post (in Russian): [«Контракт, от которого код не может уйти»](/posts/spec_first_monorepo/).
+
+The story of the first import of a real library (in Russian): [«26% уроков пропали молча»](/posts/course_shelf_silent_import_loss/).
+
 ## Installation
 
 Releases ship as Docker images on GHCR, and the stack runs on Docker Compose.

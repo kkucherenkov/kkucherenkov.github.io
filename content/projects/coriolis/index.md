@@ -73,6 +73,8 @@ OpenAPI и AsyncAPI, клиенты для TypeScript и Dart генерирую
 русский, украинский и греческий, паритет ключей проверяет CI. Телеметрия идёт
 через OpenTelemetry в Grafana, ошибки — в Sentry.
 
+Общий каркас Course Shelf, Coriolis и burkmak разобран в посте [«Контракт, от которого код не может уйти»](/posts/spec_first_monorepo/).
+
 ## Установка
 
 Локальный стек поднимается через Docker Compose. Публичного инстанса пока нет:

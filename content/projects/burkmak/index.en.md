@@ -78,6 +78,8 @@ over SSE, so there are no external services: the local stack is two
 containers. The API is described in OpenAPI, and the TypeScript and Dart
 clients are generated from the spec.
 
+The scaffold shared by Course Shelf, Coriolis and burkmak is covered in a post (in Russian): [«Контракт, от которого код не может уйти»](/posts/spec_first_monorepo/).
+
 ## Installation
 
 Every release publishes Docker images for amd64 and arm64. The stack starts
